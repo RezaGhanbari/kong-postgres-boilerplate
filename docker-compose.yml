@@ -52,3 +52,26 @@ services:
       test: ["CMD-SHELL", "curl -I -s -L http://127.0.0.1:8000 || exit 1"]
       interval: 5s
       retries: 10
+  konga:
+    image: pantsel/konga:next #(or latest)
+    container_name: konga
+    depends_on:
+      - kong
+    ports:
+      - 1337:1337
+    links:
+      - mongo:db
+      - kong:kong
+    environment:
+      - DB_ADAPTER=mongo
+      - DB_HOST=mongo
+      - DB_DATABASE=konga
+      - NODE_ENV=development
+
+
+  mongo:
+    image: mongo
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - 127.0.0.1:27017:27017
