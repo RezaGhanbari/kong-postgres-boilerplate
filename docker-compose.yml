@@ -3,7 +3,7 @@ version: '3'
 services:
   kong-database:
     container_name: kong-database
-    image: postgres:9.4
+    image: postgres:latest
     environment:
       - POSTGRES_USER=kong
       - POSTGRES_DB=kong
@@ -25,7 +25,7 @@ services:
 
   kong:
     container_name: kong
-    image: kong:0.11.0
+    image: kong:latest
     depends_on:
       kong-database:
         condition: service_healthy
