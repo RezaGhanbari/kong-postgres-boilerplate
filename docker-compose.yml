@@ -1,5 +1,8 @@
 version: '2.1'
 
+volumes:
+  mongo_data:
+  
 services:
   kong-database:
     container_name: kong-database
