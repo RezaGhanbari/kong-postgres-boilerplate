@@ -1,30 +1,31 @@
-version: '2'
+version: '2.1'
 
 services:
   kong-database:
     container_name: kong-database
-    image: postgres:latest
+    image: postgres:9.4
     environment:
-      - POSTGRES_USER = kong
-      - POSTGRES_DB = kong
+      - POSTGRES_USER=kong
+      - POSTGRES_DB=kong
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
+  
   kong-migration:
-    image: kong:latest
+    image: kong
     depends_on:
       kong-database:
         condition: service_healthy
     environment:
-      - KONG_DATABASE = postgres
-      - KONG_PG_HOST = kong-database
+      - KONG_DATABASE_postgres
+      - KONG_PG_HOST=kong-database
     command: kong migrations up
-  
+
   kong:
     container_name: kong
-    image: kong:latest
+    image: kong:0.11.0
     depends_on:
       kong-database:
         condition: service_healthy
