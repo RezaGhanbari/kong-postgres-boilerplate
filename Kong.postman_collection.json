@@ -1,0 +1,407 @@
+{
+	"info": {
+		"_postman_id": "72d58333-18b8-4af5-a8b8-a6c6cefa45c2",
+		"name": "Kong",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "KONG Admin",
+			"description": "",
+			"item": [
+				{
+					"name": "Create api",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"httpbin\",\n  \"upstream_url\":\"http://httpbin.org\",\n  \"uris\":\"/test\"\n}"
+						},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/apis",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"apis"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Apis",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/apis",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"apis"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Key-Auth Plugin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"key-auth\"\n}"
+						},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/apis/{{api_name}}/plugins",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"apis",
+								"{{api_name}}",
+								"plugins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Consumer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\":\"demo\"\n}"
+						},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/consumers",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"consumers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create key-auth for consumer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"key\":\"secret123\"\n}"
+						},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/consumers/demo/key-auth",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"consumers",
+								"demo",
+								"key-auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create rate limiting plugin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"rate-limiting\",\n  \"config.minute\":\"5\"\n}"
+						},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/apis/httpbin/plugins",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"apis",
+								"httpbin",
+								"plugins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reach the Admin API via other url",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"admin-api\",\n    \"host\":\"localhost\",\n    \"port\":8001\n}"
+						},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/services/",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"services",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin-api route",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"paths[]=/admin-api\" }"
+						},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/services/admin-api/routes",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"services",
+								"admin-api",
+								"routes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an API",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/apis/{{api_name}}",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"apis",
+								"{{api_name}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve node information",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{API_ENDPOINT}}",
+							"host": [
+								"{{API_ENDPOINT}}"
+							]
+						},
+						"description": "Retrieve generic details about a node.\n\nnode_id: A UUID representing the running Kong node. This UUID is randomly generated when Kong starts, so the node will have a different node_id each time it is restarted.\navailable_on_server: Names of plugins that are installed on the node.\nenabled_in_cluster: Names of plugins that are enabled/configured. That is, the plugins configurations currently in the datastore shared by all Kong nodes."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve node status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/status",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"status"
+							]
+						},
+						"description": "Retrieve usage information about a node, with some basic information about the connections being processed by the underlying nginx process, and the status of the database connection.\n\nIf you want to monitor the Kong process, since Kong is built on top of nginx, every existing nginx monitoring tool or agent can be used.\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Service",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"service_name\",\n\t\"protocol\": \"https\",\n\t\"host\":\"upstream_host\",\n\t\"port\": 80,\n\t\"path\":\"/path/to/file\",\n\t\"retries\": 5,\n\t\"connect_timeout\": 60000,\n\t\"write_timeout\": 60000,\n\t\"read_timeout\": 60000\n}"
+						},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/services/",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"services",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Service by Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/services/{{service_name}}",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"services",
+								"{{service_name}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Service",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/services/{{service_name}}",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"services",
+								"{{service_name}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create udp log plugin for api",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"udp-log\",\n\t\"config.host\": \"172.16.17.24\",\n\t\"config.port\": 9999,\n\t\"config.timeout\": 10000\n}"
+						},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/apis/qa/plugins",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"apis",
+								"qa",
+								"plugins"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "KONG public",
+			"description": "",
+			"item": [
+				{
+					"name": "Reverse proxy test",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "apikey",
+								"value": "secret123"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{API_ENDPOINT}}/{{api_name}}/",
+							"host": [
+								"{{API_ENDPOINT}}"
+							],
+							"path": [
+								"{{api_name}}",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
